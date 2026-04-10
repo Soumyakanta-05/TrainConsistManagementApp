@@ -28,7 +28,13 @@ public class Main {
 
     public static Map<String, List<Bogie>> groupBogiesByType(List<Bogie> bogies) {
         return bogies.stream()
-                .collect(Collectors.groupingBy(b -> b.getType()));
+                .collect(Collectors.groupingBy(Bogie::getType));
+    }
+
+    public static int calculateTotalSeats(List<Bogie> bogies) {
+        return bogies.stream()
+                .map(b -> b.getCapacity())     // extract capacity
+                .reduce(0, Integer::sum);      // aggregate
     }
 
     public static void main(String[] args) {
@@ -39,13 +45,9 @@ public class Main {
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 40));
         bogies.add(new Bogie("Sleeper", 80));
-        bogies.add(new Bogie("AC Chair", 65));
 
-        Map<String, List<Bogie>> grouped = groupBogiesByType(bogies);
+        int totalSeats = calculateTotalSeats(bogies);
 
-        System.out.println("Grouped Bogies:");
-        grouped.forEach((type, list) -> {
-            System.out.println(type + " -> " + list);
-        });
+        System.out.println("Total Seating Capacity: " + totalSeats);
     }
 }
