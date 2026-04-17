@@ -39,10 +39,10 @@ public class Main {
     public static void main(String[] args) {
 
         GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        b1.assignCargo("Petroleum");   // ✅ safe
+        b1.assignCargo("Petroleum");
 
         GoodsBogie b2 = new GoodsBogie("Rectangular");
-        b2.assignCargo("Petroleum");   // ❌ unsafe but handled
+        b2.assignCargo("Petroleum");
 
         System.out.println("Program continues...");
     }
