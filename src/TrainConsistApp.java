@@ -1,44 +1,61 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class Bogie {
-    String name;
+    String type;
     int capacity;
 
-    Bogie(String name, int capacity) {
-        this.name = name;
+    public Bogie(String type, int capacity) {
+        this.type = type;
         this.capacity = capacity;
     }
 
-    @Override
-    public String toString() {
-        return name + " -> Capacity: " + capacity;
+    public int getCapacity() {
+        return capacity;
     }
 }
 
-public class TrainConsistApp {
+public class Main {
+
+    public static List<Bogie> filterUsingLoop(List<Bogie> bogies) {
+        List<Bogie> result = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.getCapacity() > 60) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
+
+    public static List<Bogie> filterUsingStream(List<Bogie> bogies) {
+        return bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+    }
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
-
         List<Bogie> bogies = new ArrayList<>();
-
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 40));
-
-        System.out.println("\nBefore Sorting:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
+        for (int i = 0; i < 10000; i++) {
+            bogies.add(new Bogie("Sleeper", i % 100));
         }
 
-        bogies.sort(Comparator.comparingInt(b -> b.capacity));
+        long startLoop = System.nanoTime();
+        List<Bogie> loopResult = filterUsingLoop(bogies);
+        long endLoop = System.nanoTime();
 
-        System.out.println("\nAfter Sorting (By Capacity - Ascending):");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        long loopTime = endLoop - startLoop;
+
+        long startStream = System.nanoTime();
+        List<Bogie> streamResult = filterUsingStream(bogies);
+        long endStream = System.nanoTime();
+
+        long streamTime = endStream - startStream;
+
+        System.out.println("Loop Time: " + loopTime + " ns");
+        System.out.println("Stream Time: " + streamTime + " ns");
+
+        System.out.println("Loop Result Size: " + loopResult.size());
+        System.out.println("Stream Result Size: " + streamResult.size());
     }
 }
