@@ -1,19 +1,30 @@
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
 
+    public static boolean linearSearch(String[] arr, String key) {
+        for (String id : arr) {
+            if (id.equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 
-        String[] bogieNames = {
-                "Sleeper", "AC Chair", "First Class", "General", "Luxury"
-        };
+        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Bogie ID to search: ");
+        String searchKey = sc.nextLine();
 
-        Arrays.sort(bogieNames);
+        boolean found = linearSearch(bogieIds, searchKey);
 
-        System.out.println("After Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        if (found) {
+            System.out.println("Bogie Found!");
+        } else {
+            System.out.println("Bogie Not Found!");
+        }
     }
 }
