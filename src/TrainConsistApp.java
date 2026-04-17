@@ -1,9 +1,12 @@
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Main {
 
-    public static boolean binarySearch(String[] arr, String key) {
+    public static boolean searchBogie(String[] arr, String key) {
+
+        if (arr == null || arr.length == 0) {
+            throw new IllegalStateException("No bogies available for search");
+        }
 
         Arrays.sort(arr);
 
@@ -29,18 +32,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
+        String[] bogieIds = {};
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter Bogie ID to search: ");
-        String key = sc.nextLine();
+        try {
+            boolean found = searchBogie(bogieIds, "BG101");
 
-        boolean found = binarySearch(bogieIds, key);
+            if (found) {
+                System.out.println("Bogie Found!");
+            } else {
+                System.out.println("Bogie Not Found!");
+            }
 
-        if (found) {
-            System.out.println("Bogie Found!");
-        } else {
-            System.out.println("Bogie Not Found!");
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
